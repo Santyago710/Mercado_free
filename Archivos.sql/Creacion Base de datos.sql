@@ -1,4 +1,4 @@
-/*Creacion Base de datos*/
+/*-----------------------------------Creacion Base de datos--------------------------------------------------------------------------*/
 
 Create database mercado_free;
 
@@ -57,16 +57,17 @@ CREATE TABLE historial (
 
 
 
-
-
-
+Drop table lista_productos ;
 CREATE TABLE lista_productos (
- id_lista_productos int not null primary key,
- id_productos int,
- id_pedidos int,
- foreign KEY (id_productos) references productos(id_productos),
- foreign KEY (id_pedidos) references pedidos (id_pedidos));
-  Alter table lista_productos  add column cantidad int default 0;
+ id_lista_productos int not null auto_increment primary key,
+ id_productos_fk int,
+ id_pedidos_fk int,
+ id_carrito_fk int,
+ cantidad int default 0 not null,
+ foreign KEY (id_productos_fk) references productos(id_productos),
+ foreign KEY (id_pedidos_fk) references pedidos (id_pedidos),
+foreign KEY (id_carrito_fk) references carrito (id_carrito));
+ 
 
 
 
@@ -118,4 +119,5 @@ create table cuenta_bancaria(
  Numero_cuenta varchar(50) not null unique,
  codigo_pais_fk int, 
  id_usuario_fk char(36),
- FOREIGN KEY (codigo_pais_fk) REFERENCES pais(codigo_pais));
+ FOREIGN KEY (codigo_pais_fk) REFERENCES pais(codigo_pais),
+ FOREIGN KEY (id_usuario_fk) REFERENCES usuarios(id_usuarios));

@@ -1,0 +1,3 @@
+cd "C:\Users\santy\OneDrive - Universidad Distrital Francisco José de Caldas\Documentos\Mercado_free\Servicios web"    
+
+python -m uvicorn Main:app --reload  
