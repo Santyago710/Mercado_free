@@ -82,6 +82,7 @@ pedidos = [
         "estado": random.choice(["Pendiente", "Enviado", "Entregado"]),
         "metodo_pago": random.choice(["Tarjeta de Crédito", "PayPal", "Transferencia Bancaria"]),
         "producto_fk": random.choice(productos)["id_productos"],
+        "cantidad": random.randint(1, 10),
         "id_usuario_fk": random.choice(usuarios)["id_usuarios"]
     } for i in range(12)
 ]
