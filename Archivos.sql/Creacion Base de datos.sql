@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS usuarios (
     id_usuarios CHAR(36) NOT NULL PRIMARY KEY,
     nombre VARCHAR(50) NOT NULL,
     contrasena VARCHAR(50) NOT NULL,
-    direccion VARCHAR(30) NOT NULL,
+    direccion VARCHAR(300) NOT NULL,
     telefono VARCHAR(50) NOT NULL,
     fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     email VARCHAR(50) NOT NULL,
