@@ -1,11 +1,11 @@
 /*----------------------------------------------PERFORMANCE-----------------------------------------------------------------------------------*/
-
+use mercado_free;
 /*creacion index*/
 Create index Nombre_producto on productos(nombre);
 create index Nombre_pais on pais(nombre);
 create index Nombre_fabricante on productos(fabricante);
 create index Nombre_categoria on categoria(nombre);
-Create index Nombre_usuario on usuarios(nombre);
+Create index Nombre_usuario on usuarios(nombre); 
 
 /*creacion triggers*/
 
@@ -171,9 +171,10 @@ JOIN
 JOIN 
     lista_productos lp ON c.id_carrito = lp.id_carrito_fk
 JOIN 
-    productos p ON lp.id_productos = p.id_productos
+    productos p ON lp.id_productos_fk = p.id_productos
 WHERE 
     c.estado = 0;
+
 
 /* Vista de Pedidos con Historial */
 CREATE VIEW vista_pedidos_historial AS
@@ -194,7 +195,7 @@ JOIN
 
 /*Vista de Ventas Totales por Producto*/
    
-   CREATE VIEW vista_ventas_totales_por_producto AS
+CREATE VIEW vista_ventas_totales_por_producto AS
 SELECT 
     p.id_productos,
     p.nombre,
@@ -203,13 +204,10 @@ SELECT
 FROM 
     pedidos pe
 JOIN 
-    lista_productos lp ON pe.id_pedidos = lp.id_pedidos
+    lista_productos lp ON pe.id_pedidos = lp.id_pedidos_fk
 JOIN 
-    productos p ON lp.id_productos = p.id_productos
+    productos p ON lp.id_productos_fk = p.id_productos
 WHERE 
     pe.estado = 'entregado'
 GROUP BY 
     p.id_productos;
-   
-   
-
