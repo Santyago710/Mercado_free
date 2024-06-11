@@ -1,6 +1,4 @@
-Entendido, aquí tienes el README actualizado, incluyendo la instalación de la biblioteca `Faker` sin suponer un archivo `requirements.txt`:
 
-```markdown
 # Instrucciones para ejecutar el script generate_data.py
 
 ## Paso 1: Instalación de Python
