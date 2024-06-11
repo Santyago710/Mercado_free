@@ -88,6 +88,11 @@ class CommentDelete(BaseModel):
 
 app = FastAPI(title="Mercado free DB", description="This is a Database of mercado libre app using a Api", version="0.2")
 
+@app.get("/")
+async def healthcheck():
+    """This is a service to validate web API is up and running."""
+    return {"status": "ok"}
+
 @app.post("/login")
 def login(login_request: LoginRequest):
     # Consulta SQL para buscar el usuario por su correo electrónico y contraseña
