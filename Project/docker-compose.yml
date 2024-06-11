@@ -12,5 +12,17 @@ services:
     volumes:
       - mysql_data:/var/lib/mysql
 
+  fastapi:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: fastapi_app
+    depends_on:
+      - mysql
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: mysql+pymysql://developer:santiagob0710@mysql/mercado_free
+
 volumes:
   mysql_data:
