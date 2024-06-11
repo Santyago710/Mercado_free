@@ -1,0 +1,28 @@
+version: '3.8'
+services:
+  mariadb:
+    image: mariadb:10.5
+    environment:
+      MYSQL_ROOT_PASSWORD: 1qaw3edr5*
+      MYSQL_DATABASE: mercado_free
+      MYSQL_USER: developer
+      MYSQL_PASSWORD: santiagob0710
+    ports:
+      - "3307:3306"
+    volumes:
+      - mariadb_data:/var/lib/mysql
+
+  web:
+    build: .
+    container_name: fastapi-app
+    depends_on:
+      - mariadb
+    environment:
+      DATABASE_URL: mysql://developer:santiagob0710@mariadb:3306/mercado_free
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+
+volumes:
+  mariadb_data:
