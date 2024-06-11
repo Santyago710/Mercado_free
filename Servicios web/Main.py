@@ -93,6 +93,21 @@ async def healthcheck():
     """This is a service to validate web API is up and running."""
     return {"status": "ok"}
 
+
+@app.get("/select")
+async def read_data(query: str):
+    db: Session = SessionLocal()
+    try:
+        result = db.execute(text(query)).fetchall()
+        # Convertir los resultados a una lista de diccionarios
+        result_dicts = [dict(row._mapping) for row in result]
+        return {"result": result_dicts}
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+    finally:
+        db.close()
+
+
 @app.post("/login")
 def login(login_request: LoginRequest):
     # Consulta SQL para buscar el usuario por su correo electrónico y contraseña
@@ -153,7 +168,6 @@ def register(user: UserRegisterModel):
             }
         )
         connection.commit()
-
     # Devolver un mensaje de éxito
     return {"message": "Usuario registrado exitosamente"}
 
@@ -343,9 +357,9 @@ def sales_manufacturers_data(db: Session = Depends(get_db)):
     try:
         query = """
             SELECT DATE(p.fecha_pedido) AS fecha, 
-                   prod.fabricante,
-                   COUNT(*) AS total_ventas, 
-                   SUM(prod.precio * lp.cantidad) AS total_ingresos
+            prod.fabricante,
+            COUNT(*) AS total_ventas, 
+            SUM(prod.precio * lp.cantidad) AS total_ingresos
             FROM pedidos p
             JOIN lista_productos lp ON p.id_pedidos = lp.id_pedidos_fk
             JOIN productos prod ON lp.id_productos_fk = prod.id_productos
@@ -376,7 +390,6 @@ def delete_product_ratings(delete_request: DeleteRequestModel, db: Session = Dep
     except Exception as e:
         print(f"An error occurred: {str(e)}")
         raise HTTPException(status_code=500, detail="Error interno del servidor")
-
 
 @app.delete("/eliminar/comentarios")
 def delete_comments(comment_info: CommentDelete, db: Session = Depends(get_db)):
