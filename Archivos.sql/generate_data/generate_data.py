@@ -6,9 +6,7 @@ import os
 fake = Faker()
 
 # Generación de datos para las tablas
-paises = [
-    {"codigo_pais": i, "nombre": fake.country()} for i in range(1, 13)
-]
+paises = [{"codigo_pais": i, "nombre": fake.country()} for i in range(1, 13)]
 
 usuarios = [
     {
@@ -43,13 +41,15 @@ calificaciones = [
     } for i in range(12)
 ]
 
-carrito = [
-    {
-        "usuario_fk": random.choice(usuarios)["id_usuarios"],
-        "producto_fk": random.choice(productos)["id_productos"],
-        "cantidad": random.randint(1, 10)
-    } for _ in range(12)
-]
+carrito = []
+for i in range(12):
+    carrito.append(
+        {
+            "id_carrito": i + 1,
+            "estado": random.choice([True, False]),
+            "id_usuario_fk": random.choice(usuarios)["id_usuarios"]
+        }
+    )
 
 categorias = [
     {
@@ -76,14 +76,31 @@ comentarios = [
     } for i in range(12)
 ]
 
+historial = [
+    {
+        "id_historial": i + 1,
+        "estado": random.choice(["Pendiente", "Enviado", "Entregado"]),
+        "id_usuario_fk": random.choice(usuarios)["id_usuarios"]
+    } for i in range(12)
+]
+
 pedidos = [
     {
         "id_pedidos": i + 1,
         "estado": random.choice(["Pendiente", "Enviado", "Entregado"]),
         "metodo_pago": random.choice(["Tarjeta de Crédito", "PayPal", "Transferencia Bancaria"]),
-        "producto_fk": random.choice(productos)["id_productos"],
-        "cantidad": random.randint(1, 10),
+        "id_historial_fk": random.choice(historial)["id_historial"],
         "id_usuario_fk": random.choice(usuarios)["id_usuarios"]
+    } for i in range(12)
+]
+
+lista_productos = [
+    {
+        "id_lista_productos": i + 1,
+        "id_productos_fk": random.choice(productos)["id_productos"],
+        "id_pedidos_fk": random.choice(pedidos)["id_pedidos"],
+        "id_carrito_fk": random.choice(carrito)["id_carrito"],
+        "cantidad": random.randint(1, 10)
     } for i in range(12)
 ]
 
@@ -122,7 +139,9 @@ sql_statements.append(generate_insert('carrito', carrito))
 sql_statements.append(generate_insert('categoria', categorias))
 sql_statements.append(generate_insert('categorias_productos', categorias_productos))
 sql_statements.append(generate_insert('comentarios', comentarios))
+sql_statements.append(generate_insert('historial', historial))
 sql_statements.append(generate_insert('pedidos', pedidos))
+sql_statements.append(generate_insert('lista_productos', lista_productos))
 sql_statements.append(generate_insert('cuenta_bancaria', cuentas_bancarias))
 
 # Ruta del archivo
